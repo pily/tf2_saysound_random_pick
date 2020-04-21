@@ -41,9 +41,9 @@
         
             while($stmt->fetch()) {
                 if($startpos == 1){
-                    $index_string = "\""."file"."\"";
+                    $index_string = "\t\t\""."file"."\"";
                 }else{
-                    $index_string = "\""."file".$startpos."\"";
+                    $index_string = "\t\t\""."file".$startpos."\"";
                 }
 
                 if(strlen($number) == 1){
@@ -56,7 +56,7 @@
 
                 $path_string = "\""."ashita"."/"."320"."/".$date."/".$number.".mp3"."\"";
 
-                $string = $index_string." ".$path_string;
+                $string = $index_string." ".$path_string.PHP_EOL;
 
                 array_push($result, $string);
                 $startpos++;
@@ -93,9 +93,9 @@
         
             while($stmt->fetch()) {
                 if($index == 1){
-                    $index_string = "\""."file"."\"";
+                    $index_string = "\t\t\""."file"."\"";
                 }else{
-                    $index_string = "\""."file".$index."\"";
+                    $index_string = "\t\t\""."file".$index."\"";
                 }
 
                 if(strlen($number) == 1){
@@ -108,7 +108,7 @@
 
                 $path_string = "\""."ashita"."/"."320"."/".$date."/".$number.".mp3"."\"";
 
-                $string = $index_string." ".$path_string;
+                $string = $index_string." ".$path_string.PHP_EOL;
 
                 array_push($result, $string);
                 $index++;
@@ -186,13 +186,53 @@
 
     $win_list = array_merge($new_win_list,$old_win_list);
 
-    var_dump($win_list);
+    //var_dump($win_list);
 
     $new_lose_list = get_saysound_new_list('lose');
     $old_lose_list = get_saysound_old_list('lose', $new_lose_song + 1, $left_lose_song);
 
     $lose_list = array_merge($new_lose_list,$old_lose_list);
 
-    var_dump($lose_list);
+    //var_dump($lose_list);
 
+    $saysound_string = "\"Sound Combinations\"".PHP_EOL;
+    $saysound_string .= "{".PHP_EOL;
+    $saysound_string .= "\t\"Win\"".PHP_EOL;
+    $saysound_string .= "\t{".PHP_EOL;
+    $saysound_string .= PHP_EOL;
+
+    foreach ($win_list as $value) {
+        $saysound_string .= $value;
+    }
+
+    $saysound_string .= PHP_EOL;
+    $saysound_string .= "\t\t\"count\""." "."\"".$song."\"".PHP_EOL;
+    $saysound_string .= "\t\t\"actiononly\""." "."\"1\"".PHP_EOL;
+    $saysound_string .= "\t\t\"action\""." "."\"round\"".PHP_EOL;
+    $saysound_string .= "\t\t\"param\""." "."\"won\"".PHP_EOL;
+    $saysound_string .= "\t\t\"volume\""." "."\"1.0\"".PHP_EOL;
+    $saysound_string .= "\t\t\"admin\""." "."\"0\"".PHP_EOL;
+    $saysound_string .= "\t}".PHP_EOL;
+    $saysound_string .= "\t\"Lose\"".PHP_EOL;
+    $saysound_string .= "\t{".PHP_EOL;
+    $saysound_string .= PHP_EOL;
+
+    foreach($lose_list as $value) {
+        $saysound_string .= $value;
+    }
+
+    $saysound_string .= PHP_EOL;
+    $saysound_string .= "\t\t\"count\""." "."\"".$song."\"".PHP_EOL;
+    $saysound_string .= "\t\t\"actiononly\""." "."\"1\"".PHP_EOL;
+    $saysound_string .= "\t\t\"action\""." "."\"lost\"".PHP_EOL;
+    $saysound_string .= "\t\t\"param\""." "."\"won\"".PHP_EOL;
+    $saysound_string .= "\t\t\"volume\""." "."\"1.0\"".PHP_EOL;
+    $saysound_string .= "\t\t\"admin\""." "."\"0\"".PHP_EOL;
+
+    $saysound_string .= "\t}".PHP_EOL;
+    $saysound_string .= "}".PHP_EOL;
+
+    echo $saysound_string;
+
+    
 ?>
