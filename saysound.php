@@ -237,5 +237,8 @@
 
     echo $saysound_string;
 
+    $myfile = fopen("saysound.cfg", "w") or die("Unable to open file!");
+    fwrite($myfile, $saysound_string);
+    fclose($myfile);
 
 ?>
