@@ -27,11 +27,14 @@
 
         $stmt = $conn->prepare("SELECT date, number
                                 FROM ss_list
-                                WHERE type IN(?, 'both')
+                                WHERE type IN(?, 'both') AND date !=?
                                 ORDER BY rand()
                                 LIMIT ?");
 
-        $stmt->bind_param('si', $type, $count);
+
+        $maxdate = get_maxdate();
+
+        $stmt->bind_param('sii', $type, $maxdate, $count);
 
         $result = array();
 
@@ -224,8 +227,8 @@
     $saysound_string .= PHP_EOL;
     $saysound_string .= "\t\t\"count\""." "."\"".$song."\"".PHP_EOL;
     $saysound_string .= "\t\t\"actiononly\""." "."\"1\"".PHP_EOL;
-    $saysound_string .= "\t\t\"action\""." "."\"lost\"".PHP_EOL;
-    $saysound_string .= "\t\t\"param\""." "."\"won\"".PHP_EOL;
+    $saysound_string .= "\t\t\"action\""." "."\"round\"".PHP_EOL;
+    $saysound_string .= "\t\t\"param\""." "."\"lost\"".PHP_EOL;
     $saysound_string .= "\t\t\"volume\""." "."\"1.0\"".PHP_EOL;
     $saysound_string .= "\t\t\"admin\""." "."\"0\"".PHP_EOL;
 
@@ -234,5 +237,5 @@
 
     echo $saysound_string;
 
-    
+
 ?>
