@@ -25,7 +25,7 @@
 
         $conn = connect_db();
 
-        $stmt = $conn->prepare("SELECT date, number
+        $stmt = $conn->prepare("SELECT date, number, name
                                 FROM ss_list
                                 WHERE type IN(?, 'both') AND date !=?
                                 ORDER BY rand()
@@ -40,13 +40,15 @@
 
         if ($stmt) {
             $stmt->execute();
-            $stmt->bind_result($date, $number);
+            $stmt->bind_result($date, $number, $name);
         
             while($stmt->fetch()) {
                 if($startpos == 1){
                     $index_string = "\t\t\""."file"."\"";
+                    $name_string = "\t\t\""."name"."\"";
                 }else{
                     $index_string = "\t\t\""."file".$startpos."\"";
+                    $name_string = "\t\t\""."name".$startpos."\"";
                 }
 
                 if(strlen($number) == 1){
@@ -58,8 +60,10 @@
                 }
 
                 $path_string = "\""."ashita"."/"."320"."/".$date."/".$number.".mp3"."\"";
+                $name_string = "\"".$name."\"";
 
                 $string = $index_string." ".$path_string.PHP_EOL;
+                $string .= $name_string." ".$name_string.PHP_EOL;
 
                 array_push($result, $string);
                 $startpos++;
@@ -78,7 +82,7 @@
 
         $conn = connect_db();
 
-        $stmt = $conn->prepare("SELECT date, number
+        $stmt = $conn->prepare("SELECT date, number, name
                                 FROM ss_list
                                 WHERE type IN(?, 'both') AND date = ?
                                 ORDER BY rand()");
@@ -92,13 +96,15 @@
 
         if ($stmt) {
             $stmt->execute();
-            $stmt->bind_result($date, $number);
+            $stmt->bind_result($date, $number, $name);
         
             while($stmt->fetch()) {
                 if($index == 1){
                     $index_string = "\t\t\""."file"."\"";
+                    $name_string = "\t\t\""."name"."\"";
                 }else{
                     $index_string = "\t\t\""."file".$index."\"";
+                    $name_string = "\t\t\""."name".$startpos."\"";
                 }
 
                 if(strlen($number) == 1){
@@ -110,8 +116,10 @@
                 }
 
                 $path_string = "\""."ashita"."/"."320"."/".$date."/".$number.".mp3"."\"";
+                $name_string = "\"".$name."\"";
 
                 $string = $index_string." ".$path_string.PHP_EOL;
+                $string .= $name_string." ".$name_string.PHP_EOL;
 
                 array_push($result, $string);
                 $index++;
