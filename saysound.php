@@ -48,7 +48,7 @@
                     $name_string = "\t\t\""."name"."\"";
                 }else{
                     $index_string = "\t\t\""."file".$startpos."\"";
-                    $name_string = "\t\t\""."name".$startpos."\"";
+                    $index_name_string = "\t\t\""."name".$startpos."\"";
                 }
 
                 if(strlen($number) == 1){
@@ -60,12 +60,19 @@
                 }
 
                 $path_string = "\""."ashita"."/"."320"."/".$date."/".$number.".mp3"."\"";
-                $name_string = "\"".$name."\"";
 
+                if(empty($name)){
+                    $name_string = "\"".$type.$startpos."\"";
+                }else{
+                    $name_string = "\"".$name."\"";
+                }
+                
                 $string = $index_string." ".$path_string.PHP_EOL;
-                $string .= $name_string." ".$name_string.PHP_EOL;
-
                 array_push($result, $string);
+
+                $string1 = $index_name_string." ".$name_string.PHP_EOL;
+                array_push($result, $string1);
+
                 $startpos++;
                 
             }
@@ -101,10 +108,10 @@
             while($stmt->fetch()) {
                 if($index == 1){
                     $index_string = "\t\t\""."file"."\"";
-                    $name_string = "\t\t\""."name"."\"";
+                    $index_name_string = "\t\t\""."name"."\"";
                 }else{
                     $index_string = "\t\t\""."file".$index."\"";
-                    $name_string = "\t\t\""."name".$startpos."\"";
+                    $index_name_string = "\t\t\""."name".$index."\"";
                 }
 
                 if(strlen($number) == 1){
@@ -116,12 +123,18 @@
                 }
 
                 $path_string = "\""."ashita"."/"."320"."/".$date."/".$number.".mp3"."\"";
-                $name_string = "\"".$name."\"";
+
+                if(empty($name)){
+                    $name_string = "\"".$type.$index."\"";
+                }else{
+                    $name_string = "\"".$name."\"";
+                }
 
                 $string = $index_string." ".$path_string.PHP_EOL;
-                $string .= $name_string." ".$name_string.PHP_EOL;
-
                 array_push($result, $string);
+
+                $string1 = $index_name_string." ".$name_string.PHP_EOL;
+                array_push($result, $string1);
                 $index++;
                 
             }
@@ -184,7 +197,7 @@
     }
 
     //echo var_dump(get_maxdate());
-    $song = 40;
+    $song = 50;
 
     $new_win_song = get_new_count('win');
     $new_lose_song = get_new_count('lose');
@@ -230,6 +243,7 @@
 
     foreach($lose_list as $value) {
         $saysound_string .= $value;
+        
     }
 
     $saysound_string .= PHP_EOL;
