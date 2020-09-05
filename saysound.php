@@ -149,7 +149,7 @@
                 if(empty($url)){
                     $url_string = "\"".$type.$index."\"";
                 }else{
-                    $url_string = "\"".$name."\"";
+                    $url_string = "\"".$url."\"";
                 }
 
                 $string = $index_string." ".$path_string.PHP_EOL;
