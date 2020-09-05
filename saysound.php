@@ -7,6 +7,7 @@
         $db = 'saysound';
 
         $conn = mysqli_connect($host, $user, $pass, $db);
+        
 
         if (!$conn) {
             //echo "Error: Unable to connect to MySQL." . PHP_EOL;
@@ -17,6 +18,8 @@
 
         //echo "Success: A proper connection to MySQL was made! The my_db database is great." . PHP_EOL;
         //echo "Host information: " . mysqli_get_host_info($conn) . PHP_EOL;
+
+        mysqli_set_charset($conn,"utf8");
 
         return $conn;
     }
