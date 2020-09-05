@@ -28,7 +28,7 @@
 
         $conn = connect_db();
 
-        $stmt = $conn->prepare("SELECT date, number, name
+        $stmt = $conn->prepare("SELECT date, number, name, url
                                 FROM ss_list
                                 WHERE type IN(?, 'both') AND date !=?
                                 ORDER BY rand()
@@ -43,15 +43,17 @@
 
         if ($stmt) {
             $stmt->execute();
-            $stmt->bind_result($date, $number, $name);
+            $stmt->bind_result($date, $number, $name, $url);
         
             while($stmt->fetch()) {
                 if($startpos == 1){
                     $index_string = "\t\t\""."file"."\"";
                     $name_string = "\t\t\""."name"."\"";
+                    $url_string = "\t\t\""."url"."\"";
                 }else{
                     $index_string = "\t\t\""."file".$startpos."\"";
                     $index_name_string = "\t\t\""."name".$startpos."\"";
+                    $index_url_string = "\t\t\""."url".$startpos."\"";
                 }
 
                 if(strlen($number) == 1){
@@ -69,12 +71,21 @@
                 }else{
                     $name_string = "\"".$name."\"";
                 }
+
+                if(empty($url)){
+                    $url_string = "\"".$type.$startpos."\"";
+                }else{
+                    $url_string = "\"".$url."\"";
+                }
                 
                 $string = $index_string." ".$path_string.PHP_EOL;
                 array_push($result, $string);
 
                 $string1 = $index_name_string." ".$name_string.PHP_EOL;
                 array_push($result, $string1);
+
+                $string2 = $index_url_string." ".$url_string.PHP_EOL;
+                array_push($result, $string2);
 
                 $startpos++;
                 
@@ -92,7 +103,7 @@
 
         $conn = connect_db();
 
-        $stmt = $conn->prepare("SELECT date, number, name
+        $stmt = $conn->prepare("SELECT date, number, name, url
                                 FROM ss_list
                                 WHERE type IN(?, 'both') AND date = ?
                                 ORDER BY rand()");
@@ -106,15 +117,17 @@
 
         if ($stmt) {
             $stmt->execute();
-            $stmt->bind_result($date, $number, $name);
+            $stmt->bind_result($date, $number, $name, $url);
         
             while($stmt->fetch()) {
                 if($index == 1){
                     $index_string = "\t\t\""."file"."\"";
                     $index_name_string = "\t\t\""."name"."\"";
+                    $index_url_string = "\t\t\""."url"."\"";
                 }else{
                     $index_string = "\t\t\""."file".$index."\"";
                     $index_name_string = "\t\t\""."name".$index."\"";
+                    $index_url_string = "\t\t\""."url".$index."\"";
                 }
 
                 if(strlen($number) == 1){
@@ -133,11 +146,21 @@
                     $name_string = "\"".$name."\"";
                 }
 
+                if(empty($url)){
+                    $url_string = "\"".$type.$index."\"";
+                }else{
+                    $url_string = "\"".$name."\"";
+                }
+
                 $string = $index_string." ".$path_string.PHP_EOL;
                 array_push($result, $string);
 
                 $string1 = $index_name_string." ".$name_string.PHP_EOL;
                 array_push($result, $string1);
+
+                $string2 = $index_url_string." ".$url_string.PHP_EOL;
+                array_push($result, $string2);
+
                 $index++;
                 
             }
